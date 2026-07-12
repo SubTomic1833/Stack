@@ -1,0 +1,54 @@
+<!DOCTYPE html>>
+<html lang="en">
+    <head>
+        <meta chartset="UTF-8">
+        <title>Stack</title>
+        <style>
+            body{
+                background-color: #222;
+                color:white;
+                font-family: Arial, sans-serif;
+                text-align: center;
+                margin-top:50px;
+            }
+            canvas{
+                background: #111;
+                border:4px solid white;
+                display:block;
+                margin:0 auto;
+                border-radius: 10px;
+            }
+            h1{
+                margin-bottom:5px;
+            }
+            p{
+                color:#aaa;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>STACK</h1>
+        <p>Press SPACEBAR to drop the block</p>
+        <canvas id="myCanvas" width="400" height="500"></canvas>
+        <script>
+            var canvas=document.getElementById("myCanvas");
+            var ctx=canvas.getContext("2d");
+
+            var blockHeight=35;
+            var gameSpeed=4;
+            var isGameOver=false;
+            var score=0;
+            var currentBlock={x:0, y:400, width:150, direction:1};
+            var stackedBlocks=[
+                {x:125, y:435, width:150}
+            ];
+            function drawEverything(){
+                ctx.clearRect(0,0,canvas.wdith,canvas.height);
+                ctx.fillStyle="cyan";
+                for(var i=0; i<stackedBlocks.length;i++){
+                    
+                }
+            }
+        </script>
+    </body>
+</html>
