@@ -43,12 +43,52 @@
                 {x:125, y:435, width:150}
             ];
             function drawEverything(){
-                ctx.clearRect(0,0,canvas.wdith,canvas.height);
+                ctx.clearRect(0,0,canvas.width,canvas.height);
                 ctx.fillStyle="cyan";
                 for(var i=0; i<stackedBlocks.length;i++){
-                    
+                    ctx.fillRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocked[i].width, blockHeight);
+                    ctx.strokeStyle="white";
+                    ctx.strokeRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocked[i].width, blockHeight)
+                }
+                if(!isGameOver){
+                    ctx.fillStyle="magenta";
+                    ctx.fillRect(currentBlock.x,currentBlock.y,currentBlock.width,blockHeight);
+                    ctx.strokeStyle="white";
+                    ctx.strokeRect(currentBlock.x,currentBlock.y,currentBlock.width,blockHeight);
+                }
+                ctx.fillStyle="white";
+                ctx.font="20px Arial";
+                ctx.fillText("Score: "+score,20,30);
+
+                if(isGameOver){
+                    ctx.fillStyle="rgba(0,0,0,0.75)";
+                    ctx.fillRect(0,0,canvas.width,canvas.height);
+                    ctx.fillStyle="red";
+                    ctx.font="40px Arial";
+                    ctx.fillText("GAME OVER",90, 230);
+                    ctx.fillStyle="white";
+                    ctx.font="20px Arial";
+                    ctx.fillText("Final Score: "+score,140,280);
+                    ctx.fillText("Refresh page to play!",95,330);
                 }
             }
+            function updateGame(){
+                if(isGameOver)return;
+
+                currentBlock.x += gamespeed *currentBlock.diretion;
+                if(currentBlock.x +currentBlock.width >= canvas.width){
+                    currentBlock.direction=-1;
+                }
+                if(currentBlock.x <=0){
+                    currentBlock.direction=1;
+                }
+            }
+            function gameLoop(){
+                updateGame();
+                drawEverything();
+                requestAnimationFrame(gameLoop);
+            }
+            //drawEverything();
         </script>
     </body>
 </html>
