@@ -88,7 +88,19 @@
                 drawEverything();
                 requestAnimationFrame(gameLoop);
             }
-            //drawEverything();
+            window.addEventListener("keydown",function(event){
+                if(event.code==="Space"){
+                    event.preventDefault();
+                    if(isGameOver)return;
+                    var targetBlock=stackedBlocks[stackedBlocks.length-1];
+                    var overlapx1=Math.max(currentBlock.x,targetBlock.x)
+                    var overlapx2=Math.min(currentBlock.x +currentBlock.width,targetBlock.x+targetBlock.width);
+                    var overLapWidth=overLapx2-overlapx1;
+                    iF(overLapWidth>=0){
+                        
+                    }
+                }
+            })
         </script>
     </body>
 </html>
