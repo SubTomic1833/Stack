@@ -96,11 +96,31 @@
                     var overlapx1=Math.max(currentBlock.x,targetBlock.x)
                     var overlapx2=Math.min(currentBlock.x +currentBlock.width,targetBlock.x+targetBlock.width);
                     var overLapWidth=overLapx2-overlapx1;
-                    iF(overLapWidth>=0){
-                        
+                    if(overLapWidth>=0){
+                        stackedBlocks.push({
+                            x:overlapx1,
+                            y:currentBlock.y,
+                            width:overLapWidth
+                        });
+                        score++;
+                        gameSpeed+=0.4;
+                        currentBlock.y-=blockHeight;
+                        currentBlock.width=overLapWidth;
+                        currentBlock.x=0;
+                        currentBlock.direction=1;
+                        if(currentBlock.y<100){
+                            for(var i=0;i<stackedBlocks.length;i++){
+                                stackedBlocks[i].y+=blockHeight;
+                            }
+                            currentBlock.y+=blockHeight;
+                        }
+                    }
+                    else{
+                        isGameOver=true;
                     }
                 }
-            })
+            });
+            gameLoop();
         </script>
     </body>
 </html>
