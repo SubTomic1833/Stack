@@ -46,9 +46,9 @@
                 ctx.clearRect(0,0,canvas.width,canvas.height);
                 ctx.fillStyle="cyan";
                 for(var i=0; i<stackedBlocks.length;i++){
-                    ctx.fillRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocked[i].width, blockHeight);
+                    ctx.fillRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocks[i].width, blockHeight);
                     ctx.strokeStyle="white";
-                    ctx.strokeRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocked[i].width, blockHeight)
+                    ctx.strokeRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocks[i].width, blockHeight)
                 }
                 if(!isGameOver){
                     ctx.fillStyle="magenta";
@@ -75,7 +75,7 @@
             function updateGame(){
                 if(isGameOver)return;
 
-                currentBlock.x += gamespeed *currentBlock.diretion;
+                currentBlock.x += gameSpeed *currentBlock.direction;
                 if(currentBlock.x +currentBlock.width >= canvas.width){
                     currentBlock.direction=-1;
                 }
@@ -95,7 +95,7 @@
                     var targetBlock=stackedBlocks[stackedBlocks.length-1];
                     var overlapx1=Math.max(currentBlock.x,targetBlock.x)
                     var overlapx2=Math.min(currentBlock.x +currentBlock.width,targetBlock.x+targetBlock.width);
-                    var overLapWidth=overLapx2-overlapx1;
+                    var overLapWidth=overlapx2-overlapx1;
                     if(overLapWidth>=0){
                         stackedBlocks.push({
                             x:overlapx1,
