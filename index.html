@@ -3,11 +3,12 @@
     <head>
         <meta charset="UTF-8">
         <title>Stack</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
         <style>
             body{
                 background-color: #222;
                 color:white;
-                font-family: Arial, sans-serif;
+                font-family: "Inter", sans-serif;
                 text-align: center;
                 margin-top:50px;
             }
@@ -20,9 +21,15 @@
             }
             h1{
                 margin-bottom:5px;
+                font-size: 48px;
+                font-weight:800;
+                letter-spacing: 4px;
             }
             p{
-                color:#aaa;
+                color:#bbb;
+                font-size:18px;
+                font-weight:500;
+                margin-bottom:20px;
             }
 
         </style>
@@ -38,7 +45,7 @@
         font-size: 18px;
         background:rgb(23, 40, 116);
         color:white;
-        border:none;
+        border:2px solid rgb(255, 255, 255);
         border-radius: 2px;
         cursor:pointer;
         ">
@@ -71,19 +78,19 @@
                     ctx.strokeRect(currentBlock.x,currentBlock.y,currentBlock.width,blockHeight);
                 }
                 ctx.fillStyle="white";
-                ctx.font="20px Arial";
+                ctx.font="600 20px Inter";
                 ctx.fillText("Score: "+score,20,30);
 
                 if(isGameOver){
                     ctx.fillStyle="rgba(0,0,0,0.75)";
                     ctx.fillRect(0,0,canvas.width,canvas.height);
                     ctx.fillStyle="red";
-                    ctx.font="40px Arial";
+                    ctx.font="800 40px Inter";
                     ctx.fillText("GAME OVER",90, 230);
                     ctx.fillStyle="white";
-                    ctx.font="20px Arial";
+                    ctx.font="600 20px Inter";
                     ctx.fillText("Final Score: "+score,140,280);
-                    ctx.fillText("Play Again!",125,330);
+                    ctx.fillText("Play Again!",150,330);
                 }
             }
             function updateGame(){
@@ -147,6 +154,9 @@
                         restartBtn.style.display="inline-block";
                     }
                 }
+            });
+            restartBtn.addEventListener("click",function(){
+                restartGame();
             });
             gameLoop();
         </script>
