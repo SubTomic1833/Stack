@@ -1,7 +1,7 @@
-<!DOCTYPE html>>
+<!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta chartset="UTF-8">
+        <meta charset="UTF-8">
         <title>Stack</title>
         <style>
             body{
@@ -24,16 +24,30 @@
             p{
                 color:#aaa;
             }
+
         </style>
     </head>
     <body>
         <h1>STACK</h1>
         <p>Press SPACEBAR to drop the block</p>
         <canvas id="myCanvas" width="400" height="500"></canvas>
+        <button id="restartBtn" style="
+        display:none;
+        margin-top:20px;
+        padding: 12px 24px;
+        font-size: 18px;
+        background:rgb(23, 40, 116);
+        color:white;
+        border:none;
+        border-radius: 2px;
+        cursor:pointer;
+        ">
+        Play Again
+        </button>
         <script>
             var canvas=document.getElementById("myCanvas");
             var ctx=canvas.getContext("2d");
-
+            var restartBtn=document.getElementById("restartBtn");
             var blockHeight=35;
             var gameSpeed=4;
             var isGameOver=false;
@@ -69,7 +83,7 @@
                     ctx.fillStyle="white";
                     ctx.font="20px Arial";
                     ctx.fillText("Final Score: "+score,140,280);
-                    ctx.fillText("Refresh page to play!",95,330);
+                    ctx.fillText("Play Again!",125,330);
                 }
             }
             function updateGame(){
@@ -82,6 +96,19 @@
                 if(currentBlock.x <=0){
                     currentBlock.direction=1;
                 }
+            }
+            function restartGame(){
+                gamespeed=4;
+                isGameOver=false;
+                score=0;
+                currentBlock={
+                    x:0,
+                    y:400,
+                    width:150,
+                    direction:1
+                };
+                stackedBlocks=[{x:125, y:435, width:150}];
+                restartBtn.style.display="none";
             }
             function gameLoop(){
                 updateGame();
@@ -103,7 +130,7 @@
                             width:overLapWidth
                         });
                         score++;
-                        gameSpeed+=0.4;
+                        gameSpeed+=0.1;
                         currentBlock.y-=blockHeight;
                         currentBlock.width=overLapWidth;
                         currentBlock.x=0;
@@ -117,6 +144,7 @@
                     }
                     else{
                         isGameOver=true;
+                        restartBtn.style.display="inline-block";
                     }
                 }
             });
