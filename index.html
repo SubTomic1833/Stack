@@ -38,25 +38,11 @@
         <h1>STACK</h1>
         <p>Press SPACEBAR to drop the block</p>
         <canvas id="myCanvas" width="400" height="500"></canvas>
-        <button id="restartBtn" style="
-        display:none;
-        margin-top:20px;
-        padding: 12px 24px;
-        font-size: 18px;
-        background:rgb(23, 40, 116);
-        color:white;
-        border:2px solid rgb(255, 255, 255);
-        border-radius: 2px;
-        cursor:pointer;
-        ">
-        Play Again
-        </button>
         <audio id="placeSound" src="place.mp3"></audio>
         <audio id="gameOverSound" src="end.mp3"></audio>
         <script>
             var canvas=document.getElementById("myCanvas");
             var ctx=canvas.getContext("2d");
-            var restartBtn=document.getElementById("restartBtn");
             var placeSound=document.getElementById("placeSound");
             var gameOverSound=document.getElementById("gameOverSound");
             var blockHeight=35;
@@ -117,6 +103,8 @@
                     ctx.fillStyle="white";
                     ctx.font="600 20px Inter";
                     ctx.fillText("Final Score: "+score,120,280);
+                    ctx.font="600 18px Inter";
+                    ctx.fillText("Press SPACE to play again",65,320);
                 }
             }
             function updateGame(){
@@ -142,7 +130,6 @@
                     direction:1
                 };
                 stackedBlocks=[{x:125, y:435, width:150}];
-                restartBtn.style.display="none";
             }
             function gameLoop(){
                 updateGame();
@@ -156,7 +143,10 @@
                         gameState="playing";
                         return;
                     }
-                    if(isGameOver)return;
+                    if(isGameOver){
+                        restartGame();
+                        return;
+                    }
                     var targetBlock=stackedBlocks[stackedBlocks.length-1];
                     var overlapx1=Math.max(currentBlock.x,targetBlock.x)
                     var overlapx2=Math.min(currentBlock.x +currentBlock.width,targetBlock.x+targetBlock.width);
@@ -188,12 +178,8 @@
                     else{
                         isGameOver=true;
                         playGameOverSound();
-                        restartBtn.style.display="inline-block";
                     }
                 }
-            });
-            restartBtn.addEventListener("click",function(){
-                restartGame();
             });
             gameLoop();
         </script>
