@@ -51,20 +51,46 @@
         ">
         Play Again
         </button>
+        <audio id="placeSound" src="place.mp3"></audio>
+        <audio id="gameOverSound" src="end.mp3"></audio>
         <script>
             var canvas=document.getElementById("myCanvas");
             var ctx=canvas.getContext("2d");
             var restartBtn=document.getElementById("restartBtn");
+            var placeSound=document.getElementById("placeSound");
+            var gameOverSound=document.getElementById("gameOverSound");
             var blockHeight=35;
             var gameSpeed=4;
             var isGameOver=false;
+            var gameState="start";
             var score=0;
+            var bestScore=localStorage.getItem("stackBestScore")||0;
+            bestScore=Number(bestScore);
             var currentBlock={x:0, y:400, width:150, direction:1};
             var stackedBlocks=[
                 {x:125, y:435, width:150}
             ];
+            function playPlaceSound(){
+                placeSound.currentTime=0;
+                placeSound.play();
+            }
+            function playGameOverSound(){
+                gameOverSound.currentTime=0;
+                gameOverSound.play();
+            }
             function drawEverything(){
                 ctx.clearRect(0,0,canvas.width,canvas.height);
+                if(gameState==="start"){
+                    ctx.fillStyle="white";
+                    ctx.font="800 45px Inter";
+                    ctx.fillText("STACK",120,180);
+                    ctx.font="500 20px Inter";
+                    ctx.fillText("Press SPACE to Start",100,250);
+                    ctx.font="500 16px Inter";
+                    ctx.fillStyle="#aaa";
+                    ctx.fillText("Drop blocks and build the tower",80,300);
+                    return;
+                }
                 ctx.fillStyle="cyan";
                 for(var i=0; i<stackedBlocks.length;i++){
                     ctx.fillRect(stackedBlocks[i].x, stackedBlocks[i].y, stackedBlocks[i].width, blockHeight);
@@ -80,6 +106,7 @@
                 ctx.fillStyle="white";
                 ctx.font="600 20px Inter";
                 ctx.fillText("Score: "+score,20,30);
+                ctx.fillText("Best: "+bestScore,280,30);
 
                 if(isGameOver){
                     ctx.fillStyle="rgba(0,0,0,0.75)";
@@ -89,12 +116,11 @@
                     ctx.fillText("GAME OVER",90, 230);
                     ctx.fillStyle="white";
                     ctx.font="600 20px Inter";
-                    ctx.fillText("Final Score: "+score,140,280);
-                    ctx.fillText("Play Again!",150,330);
+                    ctx.fillText("Final Score: "+score,120,280);
                 }
             }
             function updateGame(){
-                if(isGameOver)return;
+                if(gameState!=="playing")return;
 
                 currentBlock.x += gameSpeed *currentBlock.direction;
                 if(currentBlock.x +currentBlock.width >= canvas.width){
@@ -105,8 +131,9 @@
                 }
             }
             function restartGame(){
-                gamespeed=4;
+                gameSpeed=4;
                 isGameOver=false;
+                gameState="playing";
                 score=0;
                 currentBlock={
                     x:0,
@@ -125,6 +152,10 @@
             window.addEventListener("keydown",function(event){
                 if(event.code==="Space"){
                     event.preventDefault();
+                    if(gameState==="start"){
+                        gameState="playing";
+                        return;
+                    }
                     if(isGameOver)return;
                     var targetBlock=stackedBlocks[stackedBlocks.length-1];
                     var overlapx1=Math.max(currentBlock.x,targetBlock.x)
@@ -137,7 +168,12 @@
                             width:overLapWidth
                         });
                         score++;
-                        gameSpeed+=0.1;
+                        playPlaceSound();
+                        if(score>bestScore){
+                            bestScore=score;
+                            localStorage.setItem("stackedBestScore",bestScore);
+                        }
+                        gameSpeed+=0.01;
                         currentBlock.y-=blockHeight;
                         currentBlock.width=overLapWidth;
                         currentBlock.x=0;
@@ -151,6 +187,7 @@
                     }
                     else{
                         isGameOver=true;
+                        playGameOverSound();
                         restartBtn.style.display="inline-block";
                     }
                 }
